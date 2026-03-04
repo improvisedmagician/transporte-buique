@@ -30,7 +30,7 @@
                     <span class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Secretaria de Educação • Buíque</span>
                 </div>
             </div>
-            <button onclick="Render.exportToCSV()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-2.5 rounded-xl font-bold text-xs transition-all flex items-center gap-2 shadow-lg shadow-emerald-900/20">
+            <button onclick="Render.exportToCSV()" title="Exportar dados para Excel/CSV" class="bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-2.5 rounded-xl font-bold text-xs transition-all flex items-center gap-2 shadow-lg shadow-emerald-900/20">
                 <i class="fas fa-file-csv text-lg"></i> EXPORTAR LISTA
             </button>
         </div>
@@ -44,7 +44,7 @@
                     <i class="fas fa-school text-blue-600"></i> Cadastrar Escola
                 </h3>
                 <form id="school-form" class="space-y-3">
-                    <input type="text" id="new-school-name" placeholder="Nome da Unidade" 
+                    <input type="text" id="new-school-name" title="Nome da nova unidade escolar" placeholder="Nome da Unidade" 
                            class="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl outline-none focus:border-blue-500 font-medium text-sm transition-all" required>
                     <button type="submit" class="w-full bg-slate-900 text-white py-4 rounded-2xl font-bold hover:bg-blue-600 transition-all text-[10px] uppercase tracking-widest">
                         Adicionar à Lista
@@ -64,8 +64,8 @@
                         <i class="fas fa-filter text-orange-500"></i> Filtrar Levantamento
                     </h3>
                     <div class="space-y-2">
-                        <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Selecione a Unidade para visualizar e exportar</label>
-                        <select id="filter-school" 
+                        <label for="filter-school" class="block text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Selecione a Unidade para visualizar e exportar</label>
+                        <select id="filter-school" title="Filtrar por escola" 
                                 class="w-full p-5 bg-slate-50 border-2 border-slate-100 rounded-3xl outline-none font-black text-slate-700 text-xl appearance-none cursor-pointer focus:border-blue-500 transition-all">
                             <option value="all">TODAS AS ESCOLAS (GERAL)</option>
                         </select>

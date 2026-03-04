@@ -12,7 +12,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Plus Jakarta Sans', sans-serif; background: #0f172a; }
-        .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        /* CORREÇÃO DO SAFARI AQUI: -webkit-backdrop-filter adicionado */
+        .glass { background: rgba(255, 255, 255, 0.03); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); }
         .input-dark { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); color: white; transition: all 0.3s ease; }
         .input-dark:focus { border-color: #3b82f6; box-shadow: 0 0 20px rgba(59, 130, 246, 0.2); }
         .btn-grad { background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%); }
@@ -47,29 +48,30 @@
 
         <div class="glass rounded-[2.5rem] p-8 shadow-2xl">
             <form id="bus-form" class="space-y-5">
+                
                 <div class="space-y-2">
-                    <label class="text-[10px] font-bold text-blue-400 uppercase tracking-widest ml-1">Nome Completo</label>
+                    <label for="user-name" class="text-[10px] font-bold text-blue-400 uppercase tracking-widest ml-1">Nome Completo</label>
                     <div class="relative">
                         <i class="far fa-user absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 text-sm"></i>
-                        <input type="text" id="user-name" placeholder="Digite seu nome" class="input-dark w-full pl-11 pr-4 py-4 rounded-2xl outline-none font-medium" required>
+                        <input type="text" id="user-name" title="Digite o seu nome completo" placeholder="Digite seu nome" class="input-dark w-full pl-11 pr-4 py-4 rounded-2xl outline-none font-medium" required>
                     </div>
                 </div>
 
                 <div class="space-y-2">
-                    <label class="text-[10px] font-bold text-blue-400 uppercase tracking-widest ml-1">Seu Destino (Escola)</label>
+                    <label for="user-origin" class="text-[10px] font-bold text-blue-400 uppercase tracking-widest ml-1">Seu Destino (Escola)</label>
                     <div class="relative">
                         <i class="fas fa-school absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 text-sm"></i>
-                        <select id="user-origin" class="input-dark w-full pl-11 pr-4 py-4 rounded-2xl outline-none font-bold appearance-none cursor-pointer" required>
+                        <select id="user-origin" title="Selecione a sua escola de destino" class="input-dark w-full pl-11 pr-4 py-4 rounded-2xl outline-none font-bold appearance-none cursor-pointer" required>
                             <option value="">Carregando escolas...</option>
                         </select>
                     </div>
                 </div>
 
                 <div class="space-y-2">
-                    <label class="text-[10px] font-bold text-blue-400 uppercase tracking-widest ml-1">Série / Ano</label>
+                    <label for="user-serie" class="text-[10px] font-bold text-blue-400 uppercase tracking-widest ml-1">Série / Ano</label>
                     <div class="relative">
                         <i class="fas fa-graduation-cap absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 text-sm"></i>
-                        <select id="user-serie" class="input-dark w-full pl-11 pr-4 py-4 rounded-2xl outline-none font-bold appearance-none cursor-pointer" required>
+                        <select id="user-serie" title="Selecione a sua série ou ano escolar" class="input-dark w-full pl-11 pr-4 py-4 rounded-2xl outline-none font-bold appearance-none cursor-pointer" required>
                             <option value="">Selecione a sua série</option>
                             <option value="Fundamental (6º ao 9º)">Fundamental (6º ao 9º)</option>
                             <option value="Médio (1º ao 3º)">Médio (1º ao 3º)</option>
@@ -78,10 +80,10 @@
                 </div>
 
                 <div class="space-y-2">
-                    <label class="text-[10px] font-bold text-blue-400 uppercase tracking-widest ml-1">Turno</label>
+                    <label for="user-turno" class="text-[10px] font-bold text-blue-400 uppercase tracking-widest ml-1">Turno</label>
                     <div class="relative">
                         <i class="fas fa-clock absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 text-sm"></i>
-                        <select id="user-turno" class="input-dark w-full pl-11 pr-4 py-4 rounded-2xl outline-none font-bold appearance-none cursor-pointer" required>
+                        <select id="user-turno" title="Selecione o seu turno de estudo" class="input-dark w-full pl-11 pr-4 py-4 rounded-2xl outline-none font-bold appearance-none cursor-pointer" required>
                             <option value="">Selecione o turno</option>
                             <option value="Manhã - Tarde (EREFEM VIGÁRIO)">Manhã - Tarde (EREFEM VIGÁRIO)</option>
                             <option value="Tarde - Noite (EREFEM VIGÁRIO)">Tarde - Noite (EREFEM VIGÁRIO)</option>
@@ -93,14 +95,14 @@
                 </div>
 
                 <div class="space-y-2">
-                    <label class="text-[10px] font-bold text-blue-400 uppercase tracking-widest ml-1">Motorista</label>
+                    <label for="user-motorista" class="text-[10px] font-bold text-blue-400 uppercase tracking-widest ml-1">Motorista</label>
                     <div class="relative">
                         <i class="fas fa-id-badge absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 text-sm"></i>
-                        <input type="text" id="user-motorista" placeholder="Nome do motorista" class="input-dark w-full pl-11 pr-4 py-4 rounded-2xl outline-none font-medium" required>
+                        <input type="text" id="user-motorista" title="Digite o nome do motorista responsável" placeholder="Nome do motorista" class="input-dark w-full pl-11 pr-4 py-4 rounded-2xl outline-none font-medium" required>
                     </div>
                 </div>
 
-                <button type="submit" id="btn-submit" class="btn-grad w-full text-white py-5 rounded-2xl font-black uppercase tracking-widest text-xs mt-4 flex items-center justify-center gap-2">
+                <button type="submit" id="btn-submit" title="Confirmar presença no ônibus" class="btn-grad w-full text-white py-5 rounded-2xl font-black uppercase tracking-widest text-xs mt-4 flex items-center justify-center gap-2">
                     Confirmar Presença no Ônibus <i class="fas fa-check-circle"></i>
                 </button>
             </form>
@@ -111,7 +113,7 @@
                 </div>
                 <h2 class="text-2xl font-bold text-white mb-2">Confirmado!</h2>
                 <p class="text-slate-400 text-sm">Boa viagem! O seu registo foi enviado para a Secretaria.</p>
-                <button onclick="window.location.reload()" class="mt-8 text-blue-400 text-[10px] font-black uppercase tracking-widest">Novo Registo</button>
+                <button onclick="window.location.reload()" title="Fazer um novo registro" class="mt-8 text-blue-400 text-[10px] font-black uppercase tracking-widest">Novo Registo</button>
             </div>
         </div>
     </main>
@@ -124,14 +126,13 @@
             const modal = document.getElementById('welcome-modal');
             const btnCloseModal = document.getElementById('btn-close-modal');
 
-            // Verifica no armazenamento do celular se ele já viu e clicou em "Eu Entendi"
             if (!localStorage.getItem('avisoTransporteLido')) {
-                modal.classList.remove('hidden'); // Mostra a notificação se for a primeira vez
+                modal.classList.remove('hidden');
             }
 
             btnCloseModal.addEventListener('click', () => {
-                localStorage.setItem('avisoTransporteLido', 'true'); // Salva que ele já leu
-                modal.classList.add('hidden'); // Oculta a notificação
+                localStorage.setItem('avisoTransporteLido', 'true');
+                modal.classList.add('hidden');
             });
 
             // Lógica do Formulário

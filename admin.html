@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Administrativo - Transporte Buíque</title>
+    
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cpath fill='%233b82f6' d='M448 112c-23.7-56.1-59-96-192-96S87.7 55.9 64 112c-15.3 36.3-28.7 85.3-31.1 140.6C12.5 259.9 0 280.9 0 304V432c0 26.5 21.5 48 48 48h22.5c8.8 19.1 27.7 32 49.5 32s40.7-12.9 49.5-32H342.5c8.8 19.1 27.7 32 49.5 32s40.7-12.9 49.5-32H464c26.5 0 48-21.5 48-48V304c0-23.1-12.5-44.1-32.9-51.4C476.7 197.3 463.3 148.3 448 112zM256 64c114.6 0 135 32.4 148.3 64H107.7C121 96.4 141.4 64 256 64zM64 176h384c20.2 0 35.8 18.6 30.6 38.4l-11.4 45.6H44.8L33.4 214.4C28.2 194.6 43.8 176 64 176zM120 448c-17.7 0-32-14.3-32-32s14.3-32 32-32s32 14.3 32 32s-14.3 32-32 32zm272 0c-17.7 0-32-14.3-32-32s14.3-32 32-32s32 14.3 32 32s-14.3 32-32 32z'/%3E%3C/svg%3E">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
+        .custom-scroll::-webkit-scrollbar { width: 4px; }
+        .custom-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        .card-shadow { box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05); }
+    </style>
+</head>
+<body class="min-h-screen">
+
+    <nav class="bg-slate-900 text-white p-4 shadow-xl sticky top-0 z-50">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="bg-blue-600 p-2 rounded-xl">
+                    <i class="fas fa-bus text-white text-xl"></i>
+                </div>
+                <div>
+                    <h1 class="font-black uppercase tracking-tighter text-lg leading-none">Transporte <span class="text-blue-400">Admin</span></h1>
+                    <span class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Secretaria de Educação • Buíque</span>
+                </div>
+            </div>
+            <button onclick="Render.exportToCSV()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-2.5 rounded-xl font-bold text-xs transition-all flex items-center gap-2 shadow-lg shadow-emerald-900/20">
+                <i class="fas fa-file-csv text-lg"></i> EXPORTAR LISTA
+            </button>
+        </div>
+    </nav>
+
+    <main class="container mx-auto p-4 md:p-8 max-w-6xl">
+        
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-10">
+            <div class="bg-white p-6 rounded-[2.5rem] card-shadow border border-slate-100">
+                <h3 class="text-xs font-black text-slate-800 uppercase mb-4 flex items-center gap-2">
+                    <i class="fas fa-school text-blue-600"></i> Cadastrar Escola
+                </h3>
+                <form id="school-form" class="space-y-3">
+                    <input type="text" id="new-school-name" placeholder="Nome da Unidade" 
+                           class="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl outline-none focus:border-blue-500 font-medium text-sm transition-all" required>
+                    <button type="submit" class="w-full bg-slate-900 text-white py-4 rounded-2xl font-bold hover:bg-blue-600 transition-all text-[10px] uppercase tracking-widest">
+                        Adicionar à Lista
+                    </button>
+                </form>
+
+                <div class="mt-8 border-t pt-4">
+                    <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-4 italic">Escolas Ativas no Sistema</p>
+                    <div id="school-list-container" class="space-y-2 max-h-48 overflow-y-auto custom-scroll pr-2">
+                        </div>
+                </div>
+            </div>
+
+            <div class="lg:col-span-2 bg-white p-8 rounded-[2.5rem] card-shadow border border-slate-100 flex flex-col justify-between relative overflow-hidden">
+                <div class="z-10">
+                    <h3 class="text-xs font-black text-slate-800 uppercase mb-6 flex items-center gap-2">
+                        <i class="fas fa-filter text-orange-500"></i> Filtrar Levantamento
+                    </h3>
+                    <div class="space-y-2">
+                        <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Selecione a Unidade para visualizar e exportar</label>
+                        <select id="filter-school" 
+                                class="w-full p-5 bg-slate-50 border-2 border-slate-100 rounded-3xl outline-none font-black text-slate-700 text-xl appearance-none cursor-pointer focus:border-blue-500 transition-all">
+                            <option value="all">TODAS AS ESCOLAS (GERAL)</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="mt-8 p-4 bg-blue-50 rounded-2xl border border-blue-100 z-10">
+                    <p class="text-[11px] text-blue-800 font-semibold flex items-center gap-2">
+                        <i class="fas fa-info-circle text-blue-500"></i> 
+                        O sistema conta automaticamente quantos passageiros responderam por escola.
+                    </p>
+                </div>
+                <i class="fas fa-bus absolute -right-10 -bottom-10 text-[12rem] text-slate-50/50 -rotate-12 pointer-events-none"></i>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-[2.5rem] card-shadow border border-slate-100 overflow-hidden">
+            <div class="bg-slate-50/80 px-8 py-6 border-b flex flex-wrap justify-between items-center gap-4">
+                <div>
+                    <h3 class="text-[11px] font-black text-slate-800 uppercase tracking-widest leading-none">Relatório de Passageiros</h3>
+                    <p class="text-[10px] text-slate-400 font-medium mt-1">Dados acumulados no banco de dados</p>
+                </div>
+                
+                <div id="count-badge" class="bg-blue-600 text-white text-[11px] px-5 py-2 rounded-full font-black tracking-tighter shadow-lg shadow-blue-200 animate-pulse">
+                    A CARREGAR...
+                </div>
+            </div>
+            
+            <div class="overflow-x-auto">
+                <table class="min-w-full">
+                    <thead>
+                        <tr class="text-left bg-slate-100/50">
+                            <th class="px-8 py-5 text-[10px] font-black text-slate-400 uppercase">Nome / Escola / Série</th>
+                            <th class="px-8 py-5 text-[10px] font-black text-slate-400 uppercase">Transporte</th>
+                            <th class="px-8 py-5 text-[10px] font-black text-slate-400 uppercase text-center tracking-widest">Registo (Data/Hora)</th>
+                            <th class="px-8 py-5 text-[10px] font-black text-slate-400 uppercase text-center">Remover</th>
+                        </tr>
+                    </thead>
+                    <tbody id="transport-table-body" class="divide-y divide-slate-100 text-sm">
+                        </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <script type="module">
+        import { Render } from './js/render.js';
+        import { Storage } from './js/storage.js';
+
+        window.Render = Render;
+        window.Storage = Storage;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            Render.schoolListAdmin();
+            Render.updateSchoolFilter();
+            Render.transportTable();
+
+            document.getElementById('filter-school').addEventListener('change', () => {
+                Render.transportTable();
+            });
+
+            document.getElementById('school-form').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const input = document.getElementById('new-school-name');
+                await Storage.saveSchool(input.value); 
+                input.value = '';
+                Render.schoolListAdmin();
+                Render.updateSchoolFilter();
+            });
+        });
+    </script>
+</body>
+</html>

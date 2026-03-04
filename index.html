@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transporte Escolar - Buíque</title>
+    
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cpath fill='%233b82f6' d='M448 112c-23.7-56.1-59-96-192-96S87.7 55.9 64 112c-15.3 36.3-28.7 85.3-31.1 140.6C12.5 259.9 0 280.9 0 304V432c0 26.5 21.5 48 48 48h22.5c8.8 19.1 27.7 32 49.5 32s40.7-12.9 49.5-32H342.5c8.8 19.1 27.7 32 49.5 32s40.7-12.9 49.5-32H464c26.5 0 48-21.5 48-48V304c0-23.1-12.5-44.1-32.9-51.4C476.7 197.3 463.3 148.3 448 112zM256 64c114.6 0 135 32.4 148.3 64H107.7C121 96.4 141.4 64 256 64zM64 176h384c20.2 0 35.8 18.6 30.6 38.4l-11.4 45.6H44.8L33.4 214.4C28.2 194.6 43.8 176 64 176zM120 448c-17.7 0-32-14.3-32-32s14.3-32 32-32s32 14.3 32 32s-14.3 32-32 32zm272 0c-17.7 0-32-14.3-32-32s14.3-32 32-32s32 14.3 32 32s-14.3 32-32 32z'/%3E%3C/svg%3E">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #0f172a; }
+        .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .input-dark { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); color: white; transition: all 0.3s ease; }
+        .input-dark:focus { border-color: #3b82f6; box-shadow: 0 0 20px rgba(59, 130, 246, 0.2); }
+        .btn-grad { background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%); }
+        option { background-color: #0f172a; color: white; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-center p-4">
+
+    <div id="welcome-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/80 backdrop-blur-sm hidden px-4">
+        <div class="glass rounded-[2.5rem] p-8 shadow-2xl max-w-sm w-full text-center border border-blue-500/30">
+            <div class="w-16 h-16 bg-blue-500/20 text-blue-400 rounded-full flex items-center justify-center mx-auto mb-5 border border-blue-500/30">
+                <i class="fas fa-bullhorn text-2xl"></i>
+            </div>
+            <h2 class="text-xl font-extrabold text-white mb-3">Aviso Importante</h2>
+            <p class="text-slate-300 text-sm leading-relaxed mb-8">
+                Responder a este formulário é importante para ajudar o município a <strong class="text-white">melhorar o transporte escolar</strong> e garantir a qualidade do serviço para todos.
+            </p>
+            <button id="btn-close-modal" class="btn-grad w-full text-white py-4 rounded-2xl font-black uppercase tracking-widest text-xs transition-transform hover:scale-105">
+                Eu Entendi
+            </button>
+        </div>
+    </div>
+
+    <main class="w-full max-w-md z-10">
+        <div class="text-center mb-8">
+            <div class="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-tr from-blue-500 to-indigo-600 rounded-3xl shadow-2xl mb-4">
+                <i class="fas fa-bus text-white text-3xl"></i>
+            </div>
+            <h1 class="text-3xl font-extrabold text-white tracking-tight">Transporte <span class="text-blue-500">Digital</span></h1>
+            <p class="text-slate-400 text-[10px] font-bold mt-1 uppercase tracking-[0.3em]">Secretaria de Educação • Buíque</p>
+        </div>
+
+        <div class="glass rounded-[2.5rem] p-8 shadow-2xl">
+            <form id="bus-form" class="space-y-5">
+                <div class="space-y-2">
+                    <label class="text-[10px] font-bold text-blue-400 uppercase tracking-widest ml-1">Nome Completo</label>
+                    <div class="relative">
+                        <i class="far fa-user absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 text-sm"></i>
+                        <input type="text" id="user-name" placeholder="Digite seu nome" class="input-dark w-full pl-11 pr-4 py-4 rounded-2xl outline-none font-medium" required>
+                    </div>
+                </div>
+
+                <div class="space-y-2">
+                    <label class="text-[10px] font-bold text-blue-400 uppercase tracking-widest ml-1">Seu Destino (Escola)</label>
+                    <div class="relative">
+                        <i class="fas fa-school absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 text-sm"></i>
+                        <select id="user-origin" class="input-dark w-full pl-11 pr-4 py-4 rounded-2xl outline-none font-bold appearance-none cursor-pointer" required>
+                            <option value="">Carregando escolas...</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="space-y-2">
+                    <label class="text-[10px] font-bold text-blue-400 uppercase tracking-widest ml-1">Série / Ano</label>
+                    <div class="relative">
+                        <i class="fas fa-graduation-cap absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 text-sm"></i>
+                        <select id="user-serie" class="input-dark w-full pl-11 pr-4 py-4 rounded-2xl outline-none font-bold appearance-none cursor-pointer" required>
+                            <option value="">Selecione a sua série</option>
+                            <option value="Fundamental (6º ao 9º)">Fundamental (6º ao 9º)</option>
+                            <option value="Médio (1º ao 3º)">Médio (1º ao 3º)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="space-y-2">
+                    <label class="text-[10px] font-bold text-blue-400 uppercase tracking-widest ml-1">Turno</label>
+                    <div class="relative">
+                        <i class="fas fa-clock absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 text-sm"></i>
+                        <select id="user-turno" class="input-dark w-full pl-11 pr-4 py-4 rounded-2xl outline-none font-bold appearance-none cursor-pointer" required>
+                            <option value="">Selecione o turno</option>
+                            <option value="Manhã - Tarde (EREFEM VIGÁRIO)">Manhã - Tarde (EREFEM VIGÁRIO)</option>
+                            <option value="Tarde - Noite (EREFEM VIGÁRIO)">Tarde - Noite (EREFEM VIGÁRIO)</option>
+                            <option value="Integral - ETE, DUQUE, SÃO FELIX">Integral - ETE, DUQUE, SÃO FELIX</option>
+                            <option value="Paulo DANTAS - TARDE">Paulo DANTAS - TARDE</option>
+                            <option value="Paulo DANTAS - NOITE">Paulo DANTAS - NOITE</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="space-y-2">
+                    <label class="text-[10px] font-bold text-blue-400 uppercase tracking-widest ml-1">Motorista</label>
+                    <div class="relative">
+                        <i class="fas fa-id-badge absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 text-sm"></i>
+                        <input type="text" id="user-motorista" placeholder="Nome do motorista" class="input-dark w-full pl-11 pr-4 py-4 rounded-2xl outline-none font-medium" required>
+                    </div>
+                </div>
+
+                <button type="submit" id="btn-submit" class="btn-grad w-full text-white py-5 rounded-2xl font-black uppercase tracking-widest text-xs mt-4 flex items-center justify-center gap-2">
+                    Confirmar Presença no Ônibus <i class="fas fa-check-circle"></i>
+                </button>
+            </form>
+
+            <div id="success-msg" class="hidden text-center py-6">
+                <div class="w-20 h-20 bg-emerald-500/20 text-emerald-400 rounded-full flex items-center justify-center mx-auto mb-6 border border-emerald-500/30">
+                    <i class="fas fa-bus-alt text-3xl"></i>
+                </div>
+                <h2 class="text-2xl font-bold text-white mb-2">Confirmado!</h2>
+                <p class="text-slate-400 text-sm">Boa viagem! O seu registo foi enviado para a Secretaria.</p>
+                <button onclick="window.location.reload()" class="mt-8 text-blue-400 text-[10px] font-black uppercase tracking-widest">Novo Registo</button>
+            </div>
+        </div>
+    </main>
+
+    <script type="module">
+        import { Storage } from './js/storage.js';
+        
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Lógica do Modal de "Primeira Vez"
+            const modal = document.getElementById('welcome-modal');
+            const btnCloseModal = document.getElementById('btn-close-modal');
+
+            // Verifica no armazenamento do celular se ele já viu e clicou em "Eu Entendi"
+            if (!localStorage.getItem('avisoTransporteLido')) {
+                modal.classList.remove('hidden'); // Mostra a notificação se for a primeira vez
+            }
+
+            btnCloseModal.addEventListener('click', () => {
+                localStorage.setItem('avisoTransporteLido', 'true'); // Salva que ele já leu
+                modal.classList.add('hidden'); // Oculta a notificação
+            });
+
+            // Lógica do Formulário
+            const form = document.getElementById('bus-form');
+            const schoolSelect = document.getElementById('user-origin');
+            const hoje = new Date().toISOString().split('T')[0];
+
+            const schools = await Storage.getSchools();
+            schoolSelect.innerHTML = '<option value="">Selecione sua escola</option>';
+            schools.forEach(s => schoolSelect.innerHTML += `<option value="${s}">${s}</option>`);
+
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const btn = document.getElementById('btn-submit');
+                btn.disabled = true;
+                btn.innerHTML = 'A ENVIAR...';
+
+                const data = {
+                    name: document.getElementById('user-name').value.toUpperCase(),
+                    school: schoolSelect.value,
+                    serie: document.getElementById('user-serie').value,
+                    turno: document.getElementById('user-turno').value,
+                    motorista: document.getElementById('user-motorista').value.toUpperCase(),
+                    date: hoje,
+                    time: new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })
+                };
+
+                await Storage.saveTransport(data);
+                form.classList.add('hidden');
+                document.getElementById('success-msg').classList.remove('hidden');
+            });
+        });
+    </script>
+</body>
+</html>
